@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const dotenv = require("dotenv");
+const AppError = require("./app/utils/errors/appError");
 
 const globalErrorHandler = require("./app/utils/errors/errorHandler");
 
