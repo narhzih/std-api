@@ -4,16 +4,7 @@ class UserModel extends BaseModel {
   constructor() {
     super("users");
   }
-  getUserByID(userID) {
-    this.client
-      .query("SELECT * FROM users WHERE id=$1 LIMIT 1 RETURNING *", userID)
-      .then((res) => {
-        return res.rows[0];
-      })
-      .catch((err) => {
-        this.setError(err);
-      });
-  }
+  getUserByID(userID) {}
   getUserByEmail(userEmail) {}
   getUserByUsername(username) {}
   // verifyPassword(user) {}
