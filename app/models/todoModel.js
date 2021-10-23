@@ -2,7 +2,7 @@ const BaseModel = require("./BaseModel");
 
 class TodoModel extends BaseModel {
   constructor() {
-    super("users");
+    super();
   }
   getTodos(userID) {}
   getCompletedTodos(userID) {}
@@ -12,3 +12,5 @@ class TodoModel extends BaseModel {
   updateTodo(userID, todoID, todo) {}
   deleteTodo(userId, todoID) {}
 }
+
+module.exports = TodoModel;
