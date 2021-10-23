@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const authController = require("../app/controller/authController");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -7,5 +8,6 @@ router.get("/", function (req, res, next) {
     message: "Hello with you",
   });
 });
+router.post("/register", authController.register);
 
 module.exports = router;
