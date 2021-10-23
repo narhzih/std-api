@@ -14,7 +14,7 @@ class UserModel extends BaseModel {
     try {
       const userRef = this.generateRef();
       const res = await this.client.query(
-        "INSERT INTO users (username, email, password, ref) VALUES($1, $2, $3, $4) RETURNING *",
+        "INSERT INTO users (username, email, password, ref) VALUES($1, $2, $3, $4) RETURNING username, email, ref",
         [userInfo.username, userInfo.email, userInfo.password, userRef]
       );
       this.user = res.rows[0];
@@ -27,17 +27,11 @@ class UserModel extends BaseModel {
 
   async getUserByID(userID) {
     try {
-      await this.client.query(
-        "SELECT * FROM users WHERE id=$1",
-        [userID],
-        (err, res) => {
-          if (err) {
-            this.setError(err);
-          }
-          this.user = res.rows[0];
-          return this.createResponse(this.user);
-        }
-      );
+      const res = await this.client.query("SELECT * FROM users WHERE id=$1", [
+        userID,
+      ]);
+      this.user = res.rows[0];
+      return this.createResponse(this.user);
     } catch (e) {
       this.setError(e);
       return this.createResponse(null);
@@ -46,36 +40,25 @@ class UserModel extends BaseModel {
 
   async getUserByEmail(userEmail) {
     try {
-      await this.client.query(
+      const res = await this.client.query(
         "SELECT * FROM users WHERE email=$1",
-        [userEmail],
-        (err, res) => {
-          if (err) {
-            this.setError(err);
-          }
-          this.user = res.rows[0];
-          return this.createResponse(this.user);
-        }
+        [userEmail]
       );
+      this.user = res.rows[0];
+      return this.createResponse(this.user);
     } catch (e) {
       this.setError(e);
       return this.createResponse(null);
     }
   }
 
-  async getUserByUsername(username) {
+  async getUserByRef(userRef) {
     try {
-      await this.client.query(
-        "SELECT * FROM users WHERE username=$1",
-        [username],
-        (err, res) => {
-          if (err) {
-            this.setError(err);
-          }
-          this.user = res.rows[0];
-          return this.createResponse(this.user);
-        }
-      );
+      const res = await this.client.query("SELECT * FROM users WHERE ref=$1", [
+        userRef,
+      ]);
+      this.user = res.rows[0];
+      return this.createResponse(this.user);
     } catch (e) {
       this.setError(e);
       return this.createResponse(null);
