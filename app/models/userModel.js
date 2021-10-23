@@ -48,23 +48,17 @@ class UserModel extends BaseModel {
       return this.createResponse(this.user);
     } catch (e) {
       this.setError(e);
-      return this.createResponse("default");
+      return this.createResponse(null);
     }
   }
 
-  async getUserByUsername(username) {
+  async getUserByRef(userRef) {
     try {
-      await this.client.query(
-        "SELECT * FROM users WHERE username=$1",
-        [username],
-        (err, res) => {
-          if (err) {
-            this.setError(err);
-          }
-          this.user = res.rows[0];
-          return this.createResponse(this.user);
-        }
-      );
+      const res = await this.client.query("SELECT * FROM users WHERE ref=$1", [
+        userRef,
+      ]);
+      this.user = res.rows[0];
+      return this.createResponse(this.user);
     } catch (e) {
       this.setError(e);
       return this.createResponse(null);

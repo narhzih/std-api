@@ -1,6 +1,9 @@
-exports.firstCall = (req, res) => {
+exports.testCall = (req, res) => {
   res.status(201).json({
     status: "success",
-    message: "Everything's fine!",
+    message: "You can access this route because you're logged in",
+    data: {
+      user: req.user,
+    },
   });
 };
